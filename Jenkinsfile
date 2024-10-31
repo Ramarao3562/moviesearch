@@ -1,22 +1,22 @@
 pipeline {
     agent any
-    environment {
-        API_KEY = credentials('9df39e7a8954e7b111dfdeed36e1ade4') // Reference your API key if needed
-    }
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/Ramarao3562/moviesearch.git'
+                echo 'Cloning repository...'
+                git 'https://github.com/Ramarao3562/moviesearch.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'  // Use `sh 'npm install'` if running on Linux
+                echo 'Installing dependencies...'
+                bat 'npm install'
             }
         }
         stage('Build Application') {
             steps {
-                bat 'npm run build'  // Use `sh 'npm run build'` if running on Linux
+                echo 'Building application...'
+                bat 'npm run build'
             }
         }
         stage('Deploy') {
@@ -36,10 +36,10 @@ pipeline {
     }
     post {
         success {
-            echo 'Deployment Successful!'
+            echo 'Pipeline completed successfully.'
         }
         failure {
-            echo 'Deployment Failed.'
+            echo 'Pipeline failed.'
         }
     }
 }
