@@ -21,8 +21,16 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                // Adjust the path to your deployment directory
-                bat 'xcopy build\\* "C:\\path\\to\\deployment\\directory" /E /I /Y'
+                script {
+                    echo 'Starting deployment...'
+                    try {
+                        bat 'xcopy build\\* "C:\\path\\to\\deployment\\directory" /E /I /Y'
+                        echo 'Deployment Successful'
+                    } catch (Exception e) {
+                        echo 'Deployment Failed: ' + e.toString()
+                        error('Deployment failed at the deployment stage.')
+                    }
+                }
             }
         }
     }
